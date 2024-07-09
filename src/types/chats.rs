@@ -31,7 +31,7 @@ impl From<String> for Kind {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Default)]
+#[derive(Serialize, Deserialize, Debug, Default, PartialEq)]
 pub struct Chat {
     pub id: Uuid,
     pub company_id: Uuid,

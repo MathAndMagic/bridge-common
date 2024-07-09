@@ -11,27 +11,42 @@ anyhow = "1.0.82"
 askama = "0.12.1"
 async-recursion = "1.1.0"
 async-trait = "0.1.80"
-bollard = "0.16.1"
-candle-core = { version = "0.4.1" }
-candle-nn = { version = "0.4.1" }
-candle-transformers = { version = "0.4.1" }
+bollard = { version = "0.16.1", optional = true }
+candle-core = { version = "0.4.1", optional = true }
+candle-nn = { version = "0.4.1", optional = true }
+candle-transformers = { version = "0.4.1", optional = true }
 chrono = { version = "0.4.38", features = ["serde"] }
-fantoccini = { version = "0.19.3", default-features = false, features = ["rustls-tls"] }
+fantoccini = { version = "0.19.3", default-features = false, features = ["rustls-tls"], optional = true }
 futures-util = "0.3.30"
-hf-hub = { version = "0.3.2", features = ["tokio"] }
+gloo-net = { version = "0.5.0", optional = true }
+hf-hub = { version = "0.3.2", features = ["tokio"], optional = true }
 markdown = "1.0.0-alpha.16"
 regex = "1.10.4"
-reqwest = { version = "0.12.3", features = ["rustls-tls", "json", "http2"] }
+reqwest = { version = "0.12.3", features = ["rustls-tls", "json", "http2"], optional = true }
 serde = { version = "1.0.197", features = ["derive"] }
 serde_json = "1.0.116"
-sqlx = { version = "0.7.4", features = ["runtime-tokio", "tls-rustls", "postgres", "migrate", "chrono", "uuid"] }
+sqlx = { version = "0.7.4" }
 thiserror = "1.0.59"
-tokenizers = "0.19.1"
-tokio = { version = "1.37.0", features = ["full"] }
+tokenizers = { version = "0.19.1", optional = true }
+tokio = { version = "1.37.0", features = ["full"], optional = true }
 tracing = "0.1.40"
 uuid = { version = "1.8.0", features = ["serde", "v4"] }
 
 [features]
+default = ["abilities", "browser", "chats", "client-bridge", "client-openai", "embeddings", "messages", "models", "tasks"]
+
+abilities = ["client-openai", "docker", "database"]
+browser = ["dep:fantoccini", "docker", "chats", "client-openai"]
+chats = ["database", "client-openai"]
+client-bridge = ["dep:gloo-net"]
+client-openai = ["dep:reqwest", "dep:tokio"]
+database = ["dep:tokio", "sqlx/runtime-tokio", "sqlx/postgres", "sqlx/migrate", "sqlx/chrono", "sqlx/uuid", "sqlx/tls-rustls"]
+docker = ["dep:bollard"]
+embeddings = ["dep:candle-core", "dep:candle-nn", "dep:candle-transformers", "dep:tokenizers", "dep:hf-hub"]
+messages = ["client-openai"]
+models = ["database"]
+tasks = ["dep:tokio", "docker"]
+
 cuda = ["candle-core/cuda", "candle-nn/cuda", "candle-transformers/cuda"]
 metal = ["candle-core/metal", "candle-nn/metal", "candle-transformers/metal"]
 

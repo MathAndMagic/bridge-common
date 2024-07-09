@@ -5,8 +5,9 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-const OPENAI_API_URL: &str = "https://api.openai.com/v1/";
 const GROQ_API_URL: &str = "https://api.groq.com/openai/v1/";
+const OLLAMA_API_URL: &str = "http://localhost:11434/v1/";
+const OPENAI_API_URL: &str = "https://api.openai.com/v1/";
 
 #[derive(
     Serialize, Deserialize, Debug, sqlx::Type, Default, PartialEq, Eq, Clone, Ord, PartialOrd,
@@ -15,19 +16,21 @@ pub enum Provider {
     #[default]
     OpenAI,
     Groq,
+    Ollama,
 }
 
 impl From<String> for Provider {
     fn from(s: String) -> Self {
         match s.as_str() {
             "Groq" => Provider::Groq,
+            "Ollama" => Provider::Ollama,
             _ => Provider::OpenAI,
         }
     }
 }
 
 #[allow(clippy::struct_excessive_bools)]
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Default)]
 pub struct Model {
     // Unique identifier of the model
     pub id: Uuid,
@@ -69,9 +72,15 @@ impl Model {
         match self.api_url {
             Some(ref url) => url,
             None => match self.provider {
-                Provider::OpenAI => OPENAI_API_URL,
                 Provider::Groq => GROQ_API_URL,
+                Provider::Ollama => OLLAMA_API_URL,
+                Provider::OpenAI => OPENAI_API_URL,
             },
         }
     }
+}
+
+#[derive(Default, Serialize, Deserialize, PartialEq)]
+pub struct ModelsList {
+    pub models: Vec<Model>,
 }

@@ -49,7 +49,7 @@ impl From<String> for Status {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Default, Clone)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq)]
 pub struct Task {
     pub id: Uuid,
     pub company_id: Uuid,
@@ -150,4 +150,9 @@ impl Task {
             None => self.id,
         })
     }
+}
+
+#[derive(Default, Serialize, Deserialize, PartialEq)]
+pub struct TasksList {
+    pub tasks: Vec<Task>,
 }

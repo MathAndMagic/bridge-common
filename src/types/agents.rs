@@ -2,10 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+#[derive(Default, Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Agent {
     pub id: Uuid,
+    #[serde(skip)]
     pub id_int: i32,
     pub company_id: Uuid,
     pub name: String,
@@ -17,4 +20,9 @@ pub struct Agent {
     pub execution_steps_limit: Option<i32>,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
+}
+
+#[derive(Default, Serialize, Deserialize, PartialEq, Clone, Debug)]
+pub struct AgentsList {
+    pub agents: Vec<Agent>,
 }

@@ -63,7 +63,7 @@ where
         SELECT *
         FROM messages
         WHERE company_id = $1 AND chat_id = $2
-        ORDER BY id ASC
+        ORDER BY created_at ASC
         "#,
         company_id,
         params.chat_id,
@@ -225,7 +225,7 @@ pub async fn get_last_message_id<'a, E>(
     executor: E,
     company_id: Uuid,
     chat_id: Uuid,
-) -> Result<Uuid>
+) -> Result<Option<Uuid>>
 where
     E: Executor<'a, Database = Postgres>,
 {
@@ -234,7 +234,7 @@ where
         company_id,
         chat_id
     )
-    .fetch_one(executor)
+    .fetch_optional(executor)
     .await?)
 }
 
@@ -257,7 +257,7 @@ where
         SELECT *
         FROM messages
         WHERE company_id = $1 AND chat_id = $2
-        ORDER BY id DESC
+        ORDER BY created_at DESC
         LIMIT 1
         "#,
         company_id,
@@ -319,7 +319,7 @@ where
             chat_id = $2 AND
             is_self_reflection = FALSE AND
             role = $3
-        ORDER BY id DESC LIMIT 1
+        ORDER BY created_at DESC LIMIT 1
         "#,
         company_id,
         chat_id,

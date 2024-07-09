@@ -67,7 +67,7 @@ impl From<String> for Status {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, Default, sqlx::FromRow)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default, sqlx::FromRow, PartialEq)]
 pub struct Message {
     pub id: Uuid,
     pub company_id: Uuid,
@@ -110,4 +110,9 @@ where
     S: Serializer,
 {
     serializer.serialize_str(&to_html(content.as_ref().unwrap_or(&String::new())))
+}
+
+#[derive(Default, Serialize, Deserialize, PartialEq)]
+pub struct MessagesList {
+    pub messages: Vec<Message>,
 }

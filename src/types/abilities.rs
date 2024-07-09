@@ -8,7 +8,7 @@ use uuid::Uuid;
 
 use crate::clients::openai::Function;
 
-#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default, PartialEq)]
 pub struct Ability {
     pub id: Uuid,
     pub company_id: Uuid,
@@ -40,4 +40,9 @@ impl Ability {
     pub fn function(&self) -> Function {
         serde_json::from_value(self.parameters_json.clone()).unwrap_or_default()
     }
+}
+
+#[derive(Default, Serialize, Deserialize, PartialEq)]
+pub struct AbilitiesList {
+    pub abilities: Vec<Ability>,
 }

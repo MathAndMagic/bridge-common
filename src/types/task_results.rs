@@ -23,7 +23,7 @@ impl From<String> for Kind {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default, PartialEq)]
 pub struct TaskResult {
     pub id: Uuid,
     pub company_id: Uuid,
@@ -33,4 +33,9 @@ pub struct TaskResult {
     pub data: String,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
+}
+
+#[derive(Default, Serialize, Deserialize, PartialEq)]
+pub struct TaskresultsList {
+    pub task_results: Vec<TaskResult>,
 }

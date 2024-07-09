@@ -1,21 +1,33 @@
 // Copyright 2024 StarfleetAI
 // SPDX-License-Identifier: Apache-2.0
 
+#[cfg(feature = "abilities")]
 pub mod abilities;
+#[cfg(feature = "browser")]
 pub mod browser;
 pub mod channel;
+#[cfg(feature = "chats")]
 pub mod chats;
 pub mod clients;
+pub mod components;
+#[cfg(feature = "database")]
 pub mod database;
+#[cfg(feature = "docker")]
 pub mod docker;
+#[cfg(feature = "embeddings")]
 pub mod embeddings;
 pub mod errors;
+#[cfg(feature = "messages")]
 pub mod messages;
+#[cfg(feature = "models")]
 pub mod models;
 pub mod pages;
+#[cfg(feature = "database")]
 pub mod repo;
 pub mod settings;
+#[cfg(feature = "tasks")]
 pub mod task_executor;
+#[cfg(feature = "tasks")]
 pub mod task_planner;
 pub mod tools;
 pub mod types;

@@ -4,13 +4,16 @@
 use std::{collections::HashMap, ops::Deref};
 
 use anyhow::Context;
-use reqwest::Response;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use tracing::debug;
 
+#[cfg(feature = "client-openai")]
+use reqwest::Response;
+
 use crate::types::Result;
 
+#[derive(Debug, Clone)]
 pub struct Client {
     pub api_key: String,
     pub api_url: String,
@@ -221,6 +224,7 @@ pub struct Usage {
     pub total_tokens: u32,
 }
 
+#[cfg(feature = "client-openai")]
 impl<'a> Client {
     #[must_use]
     pub fn new(api_key: &'a str, api_url: &'a str, user_agent: &'a str) -> Self {
