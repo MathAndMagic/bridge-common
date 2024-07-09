@@ -9,7 +9,7 @@ repository = "https://github.com/StarfleetAI/bridge-common"
 [dependencies]
 anyhow = "1.0.82"
 askama = "0.12.1"
-async-recursion = "1.1.0"
+async-recursion = "1.1.1"
 async-trait = "0.1.80"
 bollard = { version = "0.16.1", optional = true }
 candle-core = { version = "0.4.1", optional = true }
